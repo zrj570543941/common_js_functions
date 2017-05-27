@@ -78,12 +78,16 @@ let DoublyLinkedList = (function() {
                 throw new Error('，你传入的pos值不能为负值');
             }
 
+            let be_deleted_node = null;
+
             //若删除的是头或尾部节点的特殊操作
             if (pos === 0 || pos === lenVal - 1) {
 
                 //若删除的是头节点的特殊操作
                 if (pos === 0) {
                     let headVal = head.get(this);
+
+                    be_deleted_node = headVal;
 
                     //若列表仅有一个长度
                     if (lenVal === 1) {
@@ -102,6 +106,8 @@ let DoublyLinkedList = (function() {
                 if (pos === lenVal - 1) {
                     let tailVal = tail.get(this);
 
+                    be_deleted_node = tailVal;
+
                     //若列表仅有一个长度
                     if (lenVal === 1) {
                         tail.set(this, null);
@@ -113,8 +119,7 @@ let DoublyLinkedList = (function() {
                 }
 
                 length.set(this, lenVal - 1);
-                console.log(head.get(this), tail.get(this));
-                return; //这里放return是因为要删除的节点不可能既是头或尾节点也是中间的节点
+                return be_deleted_node; //这里放return是因为要删除的节点不可能既是头或尾节点也是中间的节点
             }
 
             // 若要删除的不是删除头或尾节点， 操作就在下方
@@ -131,7 +136,7 @@ let DoublyLinkedList = (function() {
             cur_iterating_node.next.prev = temp_val;
 
             length.set(this, lenVal - 1);
-            console.log(head.get(this), tail.get(this))
+            return cur_iterating_node;
         }
 
         // 这里可以insert到空列表或是尾节点之后那个相邻的位置上，这点不同于removeAt
