@@ -22,7 +22,7 @@ let HashMap = (function() {
         }
 
         //通过loseloseHashCode找到key相应的value在table数组中的位置进行写入或修改value操作
-        put(key, value) {
+        set(key, value) {
             const _table = table.get(this);
             let position = loseloseHashCode(key);
             console.log(position + ' - ' + key);
