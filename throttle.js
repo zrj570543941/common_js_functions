@@ -3,13 +3,13 @@
 	fn：需要被延迟执行的函数或事务处理函数
 	interval：指定事务处理函数每次被调用间的时间间隔
 */
-function throttle ( fn, interval ) {
+function throttle ( fn, isArrowFn = false, interval) {
     var __self = fn, // 保存需要被延迟执行的函数引用
         timer, // 定时器
         firstTime = true; // 是否是第一次调用
     return function () {
         var args = arguments,
-            __me = this;
+            __me = isArrowFn ? null : this;
         if (firstTime) { // 如果是第一次调用，不需延迟执行
             __self.apply(__me, args);
             return firstTime = false;
@@ -17,13 +17,16 @@ function throttle ( fn, interval ) {
         if (timer) { // 如果定时器还在，说明前一次延迟执行还没有完成
             return false;
 
-            timer = setTimeout(function () { // 延迟一段时间执行
-                clearTimeout(timer);
-                timer = null;
-                __self.apply(__me, args);
-            }, interval || 500);
         }
-        ;
+
+        timer = setTimeout(function () { // 延迟一段时间执行
+            console.log('执行')
+            clearTimeout(timer);
+
+            timer = null;
+            !isArrowFn ? __self.apply(__me, args) : __self(args);
+        }, interval || 500);
+
     }
 }
 
